@@ -30,13 +30,13 @@ public class FuncionarioController {
         return ResponseEntity.ok().body(funcionario);
     }
 
-    @GetMapping("/funcionariosEmail/{emailFuncionario}")
+    @GetMapping("/funcionariosEmail/{emailFuncionario}") // Get-> Procurar
     public ResponseEntity<Funcionario> mostrarUmFuncionarioPeloEmail(@PathVariable String emailFuncionario){
         Funcionario funcionario = funcionarioServices.mostrarUmFuncionarioPeloEmail(emailFuncionario);
         return  ResponseEntity.ok().body(funcionario);
     }
 
-    @PostMapping("/funcionarios")
+    @PostMapping("/funcionarios") // Post -> Postar/Add
     public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody Funcionario funcionario){
 
         // nessa linha 42, o funcionário já é salvo na tabela do databse
@@ -52,4 +52,20 @@ public class FuncionarioController {
         return ResponseEntity.created(novaUri).body(funcionario);
     }
 
+    @DeleteMapping("/funcionarios/{idFuncionario}") // Delete - Deletar
+    public ResponseEntity<Void> excluirFuncionario(@PathVariable Integer idFuncionario) {
+        funcionarioServices.excluirFuncionario(idFuncionario);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/funcionarios/{idFuncionario}") //Put -> Editar
+
+    public ResponseEntity<Funcionario> editarFuncionario(@PathVariable Integer idFuncionario,
+                                                         @RequestBody Funcionario funcionario){
+
+        funcionario.setIdFuncionario(idFuncionario);
+        funcionarioServices.editarFuncionario(funcionario);
+        return ResponseEntity.ok().build();
+    }
 }
